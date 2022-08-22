@@ -3,15 +3,22 @@
 #include <Ethernet.h>
 #include <EthernetUDP.h>
 
-Servo th1, th2, th3, th4, th5, th6;
-int val;   
+Servo thruster[6];
+/* 0 - vertical_0
+*  1 - vertical_1
+*  2 - horizontal_0
+*  3 - horizontal_1
+*  4 - horizontal_2
+*  5 - horizontal_3
+ */
+//Servo th1, th2, th3, th4, th5, th6;
 
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
 IPAddress ip(192, 168,1,177);
 unsigned int localPort = 8888;
 
-char buffer[7];
-char speedbuffer[7];
+char buffer[48];
+//char buffer[UDP_TX_PACKET_MAX_SIZE] // 24 байта
 EthernetUDP udp;
 
 void setup() 
@@ -21,7 +28,21 @@ void setup()
 
   Ethernet.begin(mac, ip);
   
-  th1.attach(3);  // attaches the servo on pin 9 to the servo object
+  for (int i = 0; i <= 5; i++) {
+      thruster[i].attach(i + 3);
+  }
+
+  for (int i = 0; i <= 5; i++) {
+      thruster[i].write(180);
+  }
+
+  delay(2);
+  for (int i = 0; i <= 5; i++) {
+      thruster[i].write(90);
+  }
+  delay(1.5);
+
+  /*th1.attach(3);  // attaches the servo on pin 9 to the servo object
   th2.attach(4); 
   th3.attach(5);
   th4.attach(6); 
@@ -45,7 +66,7 @@ void setup()
   th6.write(90);
 
   delay(1.5);
-  
+  */
   Serial.begin(9600);
 
   while (!Serial) 
@@ -72,26 +93,14 @@ void setup()
 
 void loop() 
 {
-  udp.beginPacket(udp.remoteIP(), udp.remotePort());
-  
-  int prev_val = val;
-  int size = udp.parsePacket();
-  
-  udp.write(size, buffer);
-  
-  if ( size > 0 )
-  {
-    udp.read(buffer, size);
-    Serial.println(size);
-
-    
-  
-  
-    val = constrain(val,0,180);  // scale it for use with the servo (value between 0 and 180)
-
-    myservo.write(val); // sets the servo position according to the scaled value
+    int packetSize = udp.parsePacket();
+    if (packetSize) {
+        udp.read(buffer, 48);
+        Serial.println("Contents:");
+        Serial.println(buffer);
+    }
+    for (int i = 0; i <= 5; i++) {
+        thruster[i].write(buffer[42 + i]); // данные в пакете начинаются с 42 байта
+    }
     delay(15);  // waits for the servo to get there
-    
-  }
-   udp.endPacket();
 }
