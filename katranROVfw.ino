@@ -4,13 +4,16 @@
 #include <EthernetUDP.h>
 
 Servo thruster[6];
-/* 0 - vertical_0
-*  1 - vertical_1
-*  2 - horizontal_0
-*  3 - horizontal_1
-*  4 - horizontal_2
-*  5 - horizontal_3
- */
+enum thrusters
+{
+    VERTICAL_0, //0
+    VERTICAL_1, //1
+    HORIZONTAL_0, //2
+    HORIZONTAL_1, //3
+    HORIZONTAL_2, //4
+    HORIZONTAL_3  //5
+};
+
 //Servo th1, th2, th3, th4, th5, th6;
 
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
