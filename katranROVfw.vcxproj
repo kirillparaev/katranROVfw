@@ -58,6 +58,8 @@
   </ImportGroup>
   <ImportGroup Label="Shared">
     <Import Project="Libraries\SPI\1.0\SPI\SPI-1.0.vcxitems" Label="Shared" />
+    <Import Project="Libraries\MPU6050\0.0.2\MPU6050\MPU6050-0.0.2.vcxitems" Label="Shared" />
+    <Import Project="Libraries\Wire\1.0\Wire\Wire-1.0.vcxitems" Label="Shared" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -78,7 +80,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\katranROVfw;$(ProjectDir)Libraries\SPI\1.0\SPI\src;$(ProjectDir)..\..\..\Apps\Arduino\libraries\Ethernet\src;$(ProjectDir)..\..\..\Apps\Arduino\libraries\Ethernet\src\utility;$(ProjectDir)..\..\..\Apps\Arduino\libraries\Servo\src;$(ProjectDir)..\..\..\Apps\Arduino\hardware\arduino\avr\cores\arduino;$(ProjectDir)..\..\..\Apps\Arduino\hardware\arduino\avr\variants\mega;$(ProjectDir)..\..\..\Apps\Arduino\hardware\tools\avr\\lib\gcc\avr\7.3.0\include;$(ProjectDir)..\..\..\Apps\Arduino\hardware\tools\avr\avr\include;$(ProjectDir)..\..\..\Apps\Arduino\hardware\tools\avr\\lib\gcc\avr\7.3.0\include;$(ProjectDir)..\..\..\Apps\Arduino\hardware\tools\avr\avr\include-fixed;$(ProjectDir)..\..\..\Apps\Arduino\hardware\tools\avr\avr\include\avr;$(ProjectDir)..\..\..\Apps\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.2\include;$(ProjectDir)..\..\..\Apps\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.2\include;$(ProjectDir)..\..\..\Apps\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\katranROVfw;$(ProjectDir)Libraries\MPU6050\0.0.2\MPU6050\src;$(ProjectDir)Libraries\SPI\1.0\SPI\src;$(ProjectDir)..\..\..\Apps\Arduino\libraries\Servo\src;$(ProjectDir)..\..\..\Apps\Arduino\libraries\Ethernet\src;$(ProjectDir)..\..\..\Apps\Arduino\libraries\Ethernet\src\utility;$(ProjectDir)Libraries\Wire\1.0\Wire\src;$(ProjectDir)Libraries\Wire\1.0\Wire\src\utility;$(ProjectDir)..\..\..\Apps\Arduino\hardware\arduino\avr\cores\arduino;$(ProjectDir)..\..\..\Apps\Arduino\hardware\arduino\avr\variants\mega;$(ProjectDir)..\..\..\Apps\Arduino\hardware\tools\avr\\lib\gcc\avr\7.3.0\include;$(ProjectDir)..\..\..\Apps\Arduino\hardware\tools\avr\avr\include;$(ProjectDir)..\..\..\Apps\Arduino\hardware\tools\avr\\lib\gcc\avr\7.3.0\include;$(ProjectDir)..\..\..\Apps\Arduino\hardware\tools\avr\avr\include-fixed;$(ProjectDir)..\..\..\Apps\Arduino\hardware\tools\avr\avr\include\avr;$(ProjectDir)..\..\..\Apps\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.2\include;$(ProjectDir)..\..\..\Apps\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.2\include;$(ProjectDir)..\..\..\Apps\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>$(ProjectDir)__vm\.katranROVfw.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
       <PreprocessorDefinitions>__AVR_atmega2560__;__AVR_ATmega2560__;_VMDEBUG=1;F_CPU=16000000L;ARDUINO=108019;ARDUINO_AVR_MEGA2560;ARDUINO_ARCH_AVR;__cplusplus=201103L;_VMICRO_INTELLISENSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>

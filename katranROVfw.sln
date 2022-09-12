@@ -7,9 +7,17 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "katranROVfw", "katranROVfw.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SPI-1.0", "Libraries\SPI\1.0\SPI\SPI-1.0.vcxitems", "{E3B8DF37-FA86-40DA-AFA6-787AF2F7E770}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MPU6050-0.0.2", "Libraries\MPU6050\0.0.2\MPU6050\MPU6050-0.0.2.vcxitems", "{AB2E3AF7-A5CA-4A1E-89AF-3EFC7D6DE7FF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Wire-1.0", "Libraries\Wire\1.0\Wire\Wire-1.0.vcxitems", "{BC680AA3-C288-45DF-A2EF-C1E60152B868}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Libraries\MPU6050\0.0.2\MPU6050\MPU6050-0.0.2.vcxitems*{ab2e3af7-a5ca-4a1e-89af-3efc7d6de7ff}*SharedItemsImports = 9
+		Libraries\Wire\1.0\Wire\Wire-1.0.vcxitems*{bc680aa3-c288-45df-a2ef-c1e60152b868}*SharedItemsImports = 9
+		Libraries\MPU6050\0.0.2\MPU6050\MPU6050-0.0.2.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		Libraries\SPI\1.0\SPI\SPI-1.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		Libraries\Wire\1.0\Wire\Wire-1.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		Libraries\SPI\1.0\SPI\SPI-1.0.vcxitems*{e3b8df37-fa86-40da-afa6-787af2f7e770}*SharedItemsImports = 9
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
