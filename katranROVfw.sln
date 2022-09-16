@@ -11,10 +11,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MPU6050-0.0.2", "Libraries\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Wire-1.0", "Libraries\Wire\1.0\Wire\Wire-1.0.vcxitems", "{BC680AA3-C288-45DF-A2EF-C1E60152B868}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "adafruit-Adafruit-Motor-Shield-library-99381df-1.0.0", "Libraries\adafruit-Adafruit-Motor-Shield-library-99381df\1.0.0\adafruit-Adafruit-Motor-Shield-library-99381df\adafruit-Adafruit-Motor-Shield-library-99381df-1.0.0.vcxitems", "{2406E229-926F-4E1E-B5C4-2C7CE51D0E19}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Libraries\adafruit-Adafruit-Motor-Shield-library-99381df\1.0.0\adafruit-Adafruit-Motor-Shield-library-99381df\adafruit-Adafruit-Motor-Shield-library-99381df-1.0.0.vcxitems*{2406e229-926f-4e1e-b5c4-2c7ce51d0e19}*SharedItemsImports = 9
 		Libraries\MPU6050\0.0.2\MPU6050\MPU6050-0.0.2.vcxitems*{ab2e3af7-a5ca-4a1e-89af-3efc7d6de7ff}*SharedItemsImports = 9
 		Libraries\Wire\1.0\Wire\Wire-1.0.vcxitems*{bc680aa3-c288-45df-a2ef-c1e60152b868}*SharedItemsImports = 9
+		Libraries\adafruit-Adafruit-Motor-Shield-library-99381df\1.0.0\adafruit-Adafruit-Motor-Shield-library-99381df\adafruit-Adafruit-Motor-Shield-library-99381df-1.0.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		Libraries\MPU6050\0.0.2\MPU6050\MPU6050-0.0.2.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		Libraries\SPI\1.0\SPI\SPI-1.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		Libraries\Wire\1.0\Wire\Wire-1.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4

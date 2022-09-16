@@ -1,3 +1,4 @@
+#include <AFMotor.h>
 #include <MPU6050.h>
 #include <SPI.h>
 #include <Servo.h>
@@ -6,7 +7,7 @@
 #include "I2Cdev.h"
 #include "Wire.h"
 
-#define BUFFER_SIZE 100
+#define BUFFER_SIZE_CALIBRATION 100
 Servo thruster[6];
 enum thrusters
 {
@@ -21,18 +22,18 @@ enum thrusters
 MPU6050 GyroAccel;
 int16_t ax, ay, az;
 int16_t gx, gy, gz;
-byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-IPAddress ip(192, 168,1,177);
-unsigned int localPort = 8888;
-char buffer[49];
-//char buffer[UDP_TX_PACKET_MAX_SIZE] // 24 байта
+byte mac_local[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
+IPAddress ip_local(192,168,0,177);
+unsigned int port_local = 8080;
+char packetBuffer[UDP_TX_PACKET_MAX_SIZE]; // 24 байта
 EthernetUDP udp;
 
 void setup() 
 {
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(53, OUTPUT);
-  Ethernet.begin(mac, ip);
+  Ethernet.init(10);
+  Ethernet.begin(mac_local, ip_local);
   
   for (int i = 0; i <= 5; i++) {
       thruster[i].attach(i + 3);
@@ -82,37 +83,55 @@ void setup()
     ; // wait for serial port to connect. Needed for native USB port only
   }
 
-  udp.begin(localPort);
-  calibration();
+  udp.begin(port_local);
+  Serial.print("Arduino IP and port: ");
+  Serial.print(ip_local);
+  Serial.print(":");
+  Serial.println(port_local);
+  //calibration();
 }
 
 void loop() 
 {
     int packetSize = udp.parsePacket();
+
     if (packetSize) {
-        udp.read(buffer, 49);
+        Serial.print("Remote PC IP and port: ");
+        Serial.print(udp.remoteIP());
+        Serial.print(":");
+        Serial.println(udp.remotePort());
+        Serial.print("Size of packet: ");
+        Serial.println(packetSize);
+
+        udp.read(packetBuffer, UDP_TX_PACKET_MAX_SIZE);
         Serial.println("Contents:");
-        Serial.println(buffer);
-        if (buffer[48] == 0xFF) {
+        //for (int i = 0; i <= 6; i++) {
+        //    packetBuffer[i] = atoi(&packetBuffer[i]);    
+        //}
+        Serial.println(packetBuffer);
+
+        if (packetBuffer[6] == 0xFF) {
             calibration();
         }
     }
+
     for (int i = 0; i <= 5; i++) {
-        thruster[i].write(buffer[42 + i]); // данные в пакете начинаются с 42 байта
+        thruster[i].write(packetBuffer[0 + i]); // данные в пакете начинаются с 42 байта
     }
+
     delay(15);  // waits for the servo to get there
 
     // TODO : вынести в отдельную функцию и заставить работать постоянно
     // расшифровать сырые данные
     // пересмотреть структуру udp пакета для отправки данных наверх
-    // прикрутить калибровку и команду на неё сверху
+    // прикрутить калибровку и команду на неё сверxy
     GyroAccel.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
-    Serial.print(ax); Serial.print("\t");
+    /*Serial.print(ax); Serial.print("\t");
     Serial.print(ay); Serial.print("\t");
     Serial.print(az); Serial.print("\t");
     Serial.print(gx); Serial.print("\t");
     Serial.print(gy); Serial.print("\t");
-    Serial.println(gz);
+    Serial.println(gz);*/
 }
 
 void calibration() {
@@ -135,7 +154,7 @@ void calibration() {
         for (byte j = 0; j < 6; j++) {    // обнуляем калибровочный массив
             offsets[j] = 0;
         }
-        for (byte i = 0; i < 100 + BUFFER_SIZE; i++) { // делаем BUFFER_SIZE измерений для усреднения
+        for (byte i = 0; i < 100 + BUFFER_SIZE_CALIBRATION; i++) { // делаем BUFFER_SIZE измерений для усреднения
             GyroAccel.getMotion6(&mpuGet[0], &mpuGet[1], &mpuGet[2], &mpuGet[3], &mpuGet[4], &mpuGet[5]);
             if (i >= 99) {                         // пропускаем первые 99 измерений
                 for (byte j = 0; j < 6; j++) {
@@ -144,7 +163,7 @@ void calibration() {
             }
         }
         for (byte i = 0; i < 6; i++) {
-            offsets[i] = offsetsOld[i] - ((long)offsets[i] / BUFFER_SIZE); // учитываем предыдущую калибровку
+            offsets[i] = offsetsOld[i] - ((long)offsets[i] / BUFFER_SIZE_CALIBRATION); // учитываем предыдущую калибровку
             if (i == 2) offsets[i] += 16384;                               // если ось Z, калибруем в 16384
             offsetsOld[i] = offsets[i];
         }
