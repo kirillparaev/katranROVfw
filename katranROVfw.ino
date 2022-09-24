@@ -28,6 +28,7 @@ unsigned int port_local = 8080;
 char packetBuffer[UDP_TX_PACKET_MAX_SIZE]; // 24 байта
 EthernetUDP udp;
 
+
 void setup() 
 {
   pinMode(LED_BUILTIN, OUTPUT);
