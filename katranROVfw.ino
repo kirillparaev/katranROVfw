@@ -95,7 +95,7 @@ void loop()
 {
     int packetSize = udp.parsePacket();
 
-    if (packetSize) {
+    if (packetSize != 0) {
         Serial.print("Remote PC IP and port: ");
         Serial.print(udp.remoteIP());
         Serial.print(":");
@@ -135,6 +135,7 @@ void loop()
 }
 
 void calibration() {
+    Serial.println("Starting calibration.,,");
     long offsets[6];
     long offsetsOld[6];
     int16_t mpuGet[6];
