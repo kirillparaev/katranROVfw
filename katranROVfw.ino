@@ -28,7 +28,6 @@ unsigned int port_local = 8080;
 char packetBuffer[UDP_TX_PACKET_MAX_SIZE]; // 24 байта
 EthernetUDP udp;
 
-
 void setup() 
 {
   pinMode(LED_BUILTIN, OUTPUT);
@@ -117,7 +116,7 @@ void loop()
     }
 
     for (int i = 0; i <= 5; i++) {
-        thruster[i].write(packetBuffer[0 + i]); // данные в пакете начинаются с 42 байта
+        thruster[i].write(packetBuffer[0 + i]);
     }
 
     delay(15);  // waits for the servo to get there
