@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding ="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" >
+  <PropertyGroup Label="Globals" >
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{d4c9be4c-cdce-47d7-8893-3ed5e2f93775}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AccelStepper.cpp" />
+<ClCompile Include="$(MSBuildThisFileDirectory)MultiStepper.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AccelStepper.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)MultiStepper.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="$(MSBuildThisFileDirectory)keywords.txt" />
+<Text Include="$(MSBuildThisFileDirectory)library.properties" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)LICENSE" />
+<None Include="$(MSBuildThisFileDirectory)Makefile" />
+<None Include="$(MSBuildThisFileDirectory)MANIFEST" />
+<None Include="$(MSBuildThisFileDirectory)project.cfg" />
+  </ItemGroup>
+</Project>

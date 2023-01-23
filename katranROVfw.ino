@@ -1,3 +1,6 @@
+#include <MultiStepper.h>
+#include <AccelStepper.h>
+#include <MS5837.h>
 #include <AFMotor.h>
 #include <MPU6050.h>
 #include <SPI.h>
@@ -18,15 +21,18 @@ enum thrusters
     HORIZONTAL_2, //4
     HORIZONTAL_3  //5
 };
-//Servo th1, th2, th3, th4, th5, th6;
 MPU6050 GyroAccel;
+MS5837 barometer;
 int16_t ax, ay, az;
+//избавиться от глобальных переменных
 int16_t gx, gy, gz;
 byte mac_local[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
 IPAddress ip_local(192,168,0,177);
 unsigned int port_local = 8080;
 char packetBuffer[UDP_TX_PACKET_MAX_SIZE]; // 24 байта
 EthernetUDP udp;
+AF_DCMotor manipulator_0(1);
+AF_DCMotor manipulator_1(2);
 
 void setup() 
 {
@@ -35,7 +41,7 @@ void setup()
   Ethernet.init(10);
   Ethernet.begin(mac_local, ip_local);
   
-  for (int i = 0; i <= 5; i++) {
+  for (int i = 0; i <= 5; i++) {  // pins 3-8
       thruster[i].attach(i + 3);
   }
 
@@ -48,36 +54,20 @@ void setup()
       thruster[i].write(90);
   }
   delay(1.5);
-
-  /*th1.attach(3);  // attaches the servo on pin 9 to the servo object
-  th2.attach(4); 
-  th3.attach(5);
-  th4.attach(6); 
-  th5.attach(7); 
-  th6.attach(8);  
-
-  th1.write(180);
-  th2.write(180);
-  th3.write(180);
-  th4.write(180);
-  th5.write(180);  
-  th6.write(180);
-
-  delay(2);
-
-  th1.write(90);
-  th2.write(90);
-  th3.write(90);
-  th4.write(90);
-  th5.write(90);
-  th6.write(90);
-
-  delay(1.5);
-  */
   Serial.begin(9600);
   Wire.begin();
-  delay(100);
-
+  if (!barometer.begin()) {
+      Serial.println("Init failed!");
+      Serial.println("Are SDA/SCL connected correctly?");
+      Serial.println("Blue Robotics Bar30: White=SDA, Green=SCL");
+      Serial.println("\n\n\n");
+  }
+  else {
+      Serial.println("Barometer has initialized!!!");
+      barometer.setFluidDensity(997); // kg/m^3 (freshwater, 1029 for seawater)В;
+  }
+  barometer.setModel(MS5837::MS5837_30BA);
+ 
   while (!Serial) 
   {
     ; // wait for serial port to connect. Needed for native USB port only
@@ -94,6 +84,7 @@ void setup()
 void loop() 
 {
     int packetSize = udp.parsePacket();
+    //updateBarometerReadings();
 
     if (packetSize) {
         Serial.print("Remote PC IP and port: ");
@@ -113,6 +104,7 @@ void loop()
         if (packetBuffer[6] == 0xFF) {
             calibration();
         }
+        manipulatorActions(packetBuffer[7], packetBuffer[8]);
     }
 
     for (int i = 0; i <= 5; i++) {
@@ -176,4 +168,82 @@ void calibration() {
         GyroAccel.setZGyroOffset(offsets[5] / 4);
         delay(2);
     }
+}
+
+void updateBarometerReadings() {
+    // Update pressure and temperature readings
+    barometer.read();
+
+    Serial.print("Pressure: ");
+    Serial.print(barometer.pressure());
+    Serial.println(" mbar");
+
+    Serial.print("Temperature: ");
+    Serial.print(barometer.temperature());
+    Serial.println(" deg C");
+
+    Serial.print("Depth: ");
+    Serial.print(barometer.depth());
+    Serial.println(" m");
+
+    Serial.print("Altitude: ");
+    Serial.print(barometer.altitude());
+    Serial.println(" m above mean sea level");
+
+    delay(1000);
+}
+
+void manipulatorActions(int cgrip, int crotate) { // 0-255
+    float val_grip = fabs(cgrip);
+    float val_rotate = fabs(crotate);
+    int sign_grip, sign_rotate;
+
+    if (val_grip != 0) {
+        sign_grip = val_grip / cgrip;
+    }
+    else {
+        sign_grip = 0;
+    }
+
+    if (val_rotate != 0) {
+        sign_rotate = val_rotate / crotate;
+    }
+    else {
+        sign_rotate = 0;
+    }
+
+    if (sign_grip >= 0) { // 1 - на мотор шилде
+        manipulator_0.run(FORWARD);
+    }
+    else {
+        manipulator_0.run(BACKWARD);
+    }
+    manipulator_0.setSpeed(val_grip);
+
+    /*if (sign_rotate >= 0) { //  - на мотор шилде
+        manipulator_1.run(FORWARD);
+    }
+    else {
+        manipulator_1.run(BACKWARD);
+    }
+    manipulator_1.setSpeed(val_rotate);*/
+
+
+    //-------------------------------------------
+    /*for (int i = 0; i < 255; i++) {
+        manipulator_0.run(FORWARD);
+        manipulator_0.setSpeed(i);
+    }
+    for (int i = 0; i < 255; i++) {
+        manipulator_0.run(BACKWARD);
+        manipulator_0.setSpeed(i);
+    }
+    for (int i = 0; i < 255; i++) {
+        manipulator_1.run(FORWARD);
+        manipulator_1.setSpeed(i);
+    }
+    for (int i = 0; i < 255; i++) {
+        manipulator_1.run(BACKWARD);
+        manipulator_1.setSpeed(i);
+    }*/
 }
