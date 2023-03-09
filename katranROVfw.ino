@@ -119,7 +119,7 @@ void loop()
     ArduinoOTA.poll();
     // check for updates
     int packetSize = udp.parsePacket();
-    // получение данных ПЕРЕД пакетом
+    // ГЇГ®Г«ГіГ·ГҐГ­ГЁГҐ Г¤Г Г­Г­Г»Гµ ГЏГ…ГђГ…Г„ ГЇГ ГЄГҐГІГ®Г¬
     //updateBarometerReadings();
     if (packetSize) {
         Serial.print("Remote PC IP and port: ");
@@ -133,7 +133,7 @@ void loop()
         Serial.println("Contents:");
         Serial.println(packetBuffer);
     }
-    // отправка данных ПОСЛЕ получения нового пакета
+    // Г®ГІГЇГ°Г ГўГЄГ  Г¤Г Г­Г­Г»Гµ ГЏГЋГ‘Г‹Г… ГЇГ®Г«ГіГ·ГҐГ­ГЁГї Г­Г®ГўГ®ГЈГ® ГЇГ ГЄГҐГІГ 
     for (int i = 0; i <= 5; i++) {
         thruster[i].write(packetBuffer[i]);
     }
@@ -149,13 +149,14 @@ void loop()
 }
 
 void calibration() {
+    Serial.println("Starting calibration.,,");
     long offsets[6];
     long offsetsOld[6];
     int16_t mpuGet[6];
-    // используем стандартную точность
+    // ГЁГ±ГЇГ®Г«ГјГ§ГіГҐГ¬ Г±ГІГ Г­Г¤Г Г°ГІГ­ГіГѕ ГІГ®Г·Г­Г®Г±ГІГј
     GyroAccel.setFullScaleAccelRange(MPU6050_ACCEL_FS_2);
     GyroAccel.setFullScaleGyroRange(MPU6050_GYRO_FS_250);
-    // обнуляем оффсеты
+    // Г®ГЎГ­ГіГ«ГїГҐГ¬ Г®ГґГґГ±ГҐГІГ»
     GyroAccel.setXAccelOffset(0);
     GyroAccel.setYAccelOffset(0);
     GyroAccel.setZAccelOffset(0);
@@ -164,24 +165,24 @@ void calibration() {
     GyroAccel.setZGyroOffset(0);
     delay(10);
     Serial.println("Calibration start. It will take about 5 seconds");
-    for (byte n = 0; n < 10; n++) {     // 10 итераций калибровки
-        for (byte j = 0; j < 6; j++) {    // обнуляем калибровочный массив
+    for (byte n = 0; n < 10; n++) {     // 10 ГЁГІГҐГ°Г Г¶ГЁГ© ГЄГ Г«ГЁГЎГ°Г®ГўГЄГЁ
+        for (byte j = 0; j < 6; j++) {    // Г®ГЎГ­ГіГ«ГїГҐГ¬ ГЄГ Г«ГЁГЎГ°Г®ГўГ®Г·Г­Г»Г© Г¬Г Г±Г±ГЁГў
             offsets[j] = 0;
         }
-        for (byte i = 0; i < 100 + BUFFER_SIZE_CALIBRATION; i++) { // делаем BUFFER_SIZE измерений для усреднения
+        for (byte i = 0; i < 100 + BUFFER_SIZE_CALIBRATION; i++) { // Г¤ГҐГ«Г ГҐГ¬ BUFFER_SIZE ГЁГ§Г¬ГҐГ°ГҐГ­ГЁГ© Г¤Г«Гї ГіГ±Г°ГҐГ¤Г­ГҐГ­ГЁГї
             GyroAccel.getMotion6(&mpuGet[0], &mpuGet[1], &mpuGet[2], &mpuGet[3], &mpuGet[4], &mpuGet[5]);
-            if (i >= 99) {                         // пропускаем первые 99 измерений
+            if (i >= 99) {                         // ГЇГ°Г®ГЇГіГ±ГЄГ ГҐГ¬ ГЇГҐГ°ГўГ»ГҐ 99 ГЁГ§Г¬ГҐГ°ГҐГ­ГЁГ©
                 for (byte j = 0; j < 6; j++) {
-                    offsets[j] += (long)mpuGet[j];   // записываем в калибровочный массив
+                    offsets[j] += (long)mpuGet[j];   // Г§Г ГЇГЁГ±Г»ГўГ ГҐГ¬ Гў ГЄГ Г«ГЁГЎГ°Г®ГўГ®Г·Г­Г»Г© Г¬Г Г±Г±ГЁГў
                 }
             }
         }
         for (byte i = 0; i < 6; i++) {
-            offsets[i] = offsetsOld[i] - ((long)offsets[i] / BUFFER_SIZE_CALIBRATION); // учитываем предыдущую калибровку
-            if (i == 2) offsets[i] += 16384;                               // если ось Z, калибруем в 16384
+            offsets[i] = offsetsOld[i] - ((long)offsets[i] / BUFFER_SIZE_CALIBRATION); // ГіГ·ГЁГІГ»ГўГ ГҐГ¬ ГЇГ°ГҐГ¤Г»Г¤ГіГ№ГіГѕ ГЄГ Г«ГЁГЎГ°Г®ГўГЄГі
+            if (i == 2) offsets[i] += 16384;                               // ГҐГ±Г«ГЁ Г®Г±Гј Z, ГЄГ Г«ГЁГЎГ°ГіГҐГ¬ Гў 16384
             offsetsOld[i] = offsets[i];
         }
-        // ставим новые оффсеты
+        // Г±ГІГ ГўГЁГ¬ Г­Г®ГўГ»ГҐ Г®ГґГґГ±ГҐГІГ»
         GyroAccel.setXAccelOffset(offsets[0] / 8);
         GyroAccel.setYAccelOffset(offsets[1] / 8);
         GyroAccel.setZAccelOffset(offsets[2] / 8);
