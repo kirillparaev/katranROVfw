@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding ="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" >
+  <PropertyGroup Label="Globals" >
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{4dbf667b-b942-46e2-97b5-931d1a1cd0f6}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\InternalStorage.cpp" />
+<ClCompile Include="$(MSBuildThisFileDirectory)src\InternalStorageAVR.cpp" />
+<ClCompile Include="$(MSBuildThisFileDirectory)src\InternalStorageESP.cpp" />
+<ClCompile Include="$(MSBuildThisFileDirectory)src\InternalStorageRP2.cpp" />
+<ClCompile Include="$(MSBuildThisFileDirectory)src\InternalStorageSTM32.cpp" />
+<ClCompile Include="$(MSBuildThisFileDirectory)src\OTAStorage.cpp" />
+<ClCompile Include="$(MSBuildThisFileDirectory)src\WiFiOTA.cpp" />
+<ClCompile Include="$(MSBuildThisFileDirectory)src\utility\rp2_flash_boot.c" />
+<ClCompile Include="$(MSBuildThisFileDirectory)src\utility\stm32_flash_boot.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)src\ArduinoOTA.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)src\InternalStorage.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)src\InternalStorageAVR.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)src\InternalStorageESP.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)src\InternalStorageRP2.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)src\InternalStorageSTM32.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)src\OTAStorage.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)src\SDStorage.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)src\SerialFlashStorage.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)src\WiFiOTA.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)src\utility\optiboot.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)src\utility\rp2_flash_boot.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)src\utility\stm32_flash_boot.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="$(MSBuildThisFileDirectory)keywords.txt" />
+<Text Include="$(MSBuildThisFileDirectory)library.properties" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)ArduinoOTA.png" />
+<None Include="$(MSBuildThisFileDirectory)LICENSE" />
+<None Include="$(MSBuildThisFileDirectory)README.md" />
+  </ItemGroup>
+</Project>
