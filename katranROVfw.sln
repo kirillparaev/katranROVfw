@@ -17,6 +17,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BlueRobotics_MS5837_Library
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AccelStepper-0.0.0", "Libraries\AccelStepper\0.0.0\AccelStepper\AccelStepper-0.0.0.vcxitems", "{D4C9BE4C-CDCE-47D7-8893-3ED5E2F93775}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ArduinoOTA-1.0.9", "Libraries\ArduinoOTA\1.0.9\ArduinoOTA\ArduinoOTA-1.0.9.vcxitems", "{4DBF667B-B942-46E2-97B5-931D1A1CD0F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -36,10 +38,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Libraries\adafruit-Adafruit-Motor-Shield-library-99381df\1.0.0\adafruit-Adafruit-Motor-Shield-library-99381df\adafruit-Adafruit-Motor-Shield-library-99381df-1.0.0.vcxitems*{2406e229-926f-4e1e-b5c4-2c7ce51d0e19}*SharedItemsImports = 9
+		Libraries\ArduinoOTA\1.0.9\ArduinoOTA\ArduinoOTA-1.0.9.vcxitems*{4dbf667b-b942-46e2-97b5-931d1a1cd0f6}*SharedItemsImports = 9
 		Libraries\MPU6050\0.0.2\MPU6050\MPU6050-0.0.2.vcxitems*{ab2e3af7-a5ca-4a1e-89af-3efc7d6de7ff}*SharedItemsImports = 9
 		Libraries\Wire\1.0\Wire\Wire-1.0.vcxitems*{bc680aa3-c288-45df-a2ef-c1e60152b868}*SharedItemsImports = 9
 		Libraries\AccelStepper\0.0.0\AccelStepper\AccelStepper-0.0.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		Libraries\adafruit-Adafruit-Motor-Shield-library-99381df\1.0.0\adafruit-Adafruit-Motor-Shield-library-99381df\adafruit-Adafruit-Motor-Shield-library-99381df-1.0.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		Libraries\ArduinoOTA\1.0.9\ArduinoOTA\ArduinoOTA-1.0.9.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		Libraries\BlueRobotics_MS5837_Library-master\1.1.1\BlueRobotics_MS5837_Library-master\BlueRobotics_MS5837_Library-master-1.1.1.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		Libraries\MPU6050\0.0.2\MPU6050\MPU6050-0.0.2.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		Libraries\SPI\1.0\SPI\SPI-1.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
