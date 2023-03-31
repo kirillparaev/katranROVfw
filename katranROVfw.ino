@@ -7,7 +7,6 @@
 #include <Servo.h>
 #include <Ethernet.h>
 #include <EthernetUDP.h>
-#include <ArduinoOTA.h>
 #include "I2Cdev.h"
 #include "Wire.h"
 
@@ -55,12 +54,12 @@ void setup()
   Ethernet.init(10);
   Ethernet.begin(mac_local, ip_local);
   
-  thruster[VERTICAL_FRONT].attach(8);
-  thruster[VERTICAL_BACK].attach(9);
-  thruster[HORIZONTAL_FRONT_RIGHT].attach(11);
-  thruster[HORIZONTAL_BACK_RIGHT].attach(13);
-  thruster[HORIZONTAL_BACK_LEFT].attach(2);
-  thruster[HORIZONTAL_FRONT_LEFT].attach(12);
+  thruster[VERTICAL_FRONT].attach(8); // чёрный
+  thruster[VERTICAL_BACK].attach(9); // красный
+  thruster[HORIZONTAL_FRONT_RIGHT].attach(11); // зеленый
+  thruster[HORIZONTAL_BACK_RIGHT].attach(13); // фиолетовый
+  thruster[HORIZONTAL_BACK_LEFT].attach(2); // коричневый
+  thruster[HORIZONTAL_FRONT_LEFT].attach(12); // синий
 
   for (int i = 0; i <= 5; i++) {
       thruster[i].write(180);
@@ -110,14 +109,11 @@ void setup()
   Serial.print(ip_local);
   Serial.print(":");
   Serial.println(port_local);
-  ArduinoOTA.begin(ip_local, "Arduino", "password", InternalStorage);
   //calibration();
 }
 
 void loop() 
 {
-    ArduinoOTA.poll();
-    // check for updates
     int packetSize = udp.parsePacket();
     // ГЇГ®Г«ГіГ·ГҐГ­ГЁГҐ Г¤Г Г­Г­Г»Гµ ГЏГ…ГђГ…Г„ ГЇГ ГЄГҐГІГ®Г¬
     //updateBarometerReadings();
@@ -266,15 +262,39 @@ void motorGo(uint8_t motor, uint8_t direct, uint8_t pwm)
     }
 }
 
-void manipulatorActions(int cgrip, int crotate) {
-   if (crotate == 0) {
+void manipulatorActions(int crotate, int cgrip) {
+    switch (cgrip) {
+    case 0:
+        motorGo(1, CCW, 1023);
+        break;
+    case 2:
+        motorGo(1, CW, 1023);
+        break;
+    default:
+        motorGo(1, 3, 0);
+        break;
+    }
+
+    switch (crotate) {
+    case 0:
+        motorGo(0, CCW, 1023);
+        break;
+    case 2:
+        motorGo(0, CW, 1023);
+        break;
+    default:
+        motorGo(0, 0, 0);
+        break;
+    }
+   /*
+    if (crotate == 0) {
        motorGo(0, CCW, 1023);
     }
     else if (crotate == 2) {
        motorGo(0, CW, 1023);
     }
     else {
-        motorOff(0);
+       motorGo(0, 0, 0);
     }
 
     if (cgrip == 0) {
@@ -284,6 +304,7 @@ void manipulatorActions(int cgrip, int crotate) {
         motorGo(1, CW, 1023);
     }
     else {
-        motorOff(1);
+        motorGo(1, 0, 0);
     }
+    */
 }
