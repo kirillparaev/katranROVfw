@@ -7,7 +7,6 @@
 #include <Servo.h>
 #include <Ethernet.h>
 #include <EthernetUDP.h>
-#include <ArduinoOTA.h>
 #include "I2Cdev.h"
 #include "Wire.h"
 
@@ -110,14 +109,11 @@ void setup()
   Serial.print(ip_local);
   Serial.print(":");
   Serial.println(port_local);
-  ArduinoOTA.begin(ip_local, "Arduino", "password", InternalStorage);
   //calibration();
 }
 
 void loop() 
 {
-    ArduinoOTA.poll();
-    // check for updates
     int packetSize = udp.parsePacket();
     // получение данных ПЕРЕД пакетом
     //updateBarometerReadings();
