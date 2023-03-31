@@ -1,3 +1,5 @@
+// 1.0
+
 #include <MultiStepper.h>
 #include <AccelStepper.h>
 #include <MS5837.h>
@@ -54,12 +56,12 @@ void setup()
   Ethernet.init(10);
   Ethernet.begin(mac_local, ip_local);
   
-  thruster[VERTICAL_FRONT].attach(8); // ������
-  thruster[VERTICAL_BACK].attach(9); // �������
-  thruster[HORIZONTAL_FRONT_RIGHT].attach(11); // �������
-  thruster[HORIZONTAL_BACK_RIGHT].attach(13); // ����������
-  thruster[HORIZONTAL_BACK_LEFT].attach(2); // ����������
-  thruster[HORIZONTAL_FRONT_LEFT].attach(12); // �����
+  thruster[VERTICAL_FRONT].attach(8); // black
+  thruster[VERTICAL_BACK].attach(9); // red
+  thruster[HORIZONTAL_FRONT_RIGHT].attach(11); // green
+  thruster[HORIZONTAL_BACK_RIGHT].attach(13); // purple
+  thruster[HORIZONTAL_BACK_LEFT].attach(2); // brown
+  thruster[HORIZONTAL_FRONT_LEFT].attach(12); // blue
 
   for (int i = 0; i <= 5; i++) {
       thruster[i].write(180);
@@ -115,7 +117,6 @@ void setup()
 void loop() 
 {
     int packetSize = udp.parsePacket();
-    // ïîëó÷åíèå äàííûõ ÏÅÐÅÄ ïàêåòîì
     //updateBarometerReadings();
     if (packetSize) {
         Serial.print("Remote PC IP and port: ");
@@ -129,7 +130,7 @@ void loop()
         Serial.println("Contents:");
         Serial.println(packetBuffer);
     }
-    // îòïðàâêà äàííûõ ÏÎÑËÅ ïîëó÷åíèÿ íîâîãî ïàêåòà
+
     for (int i = 0; i <= 5; i++) {
         thruster[i].write(packetBuffer[i]);
     }
@@ -149,10 +150,8 @@ void calibration() {
     long offsets[6];
     long offsetsOld[6];
     int16_t mpuGet[6];
-    // èñïîëüçóåì ñòàíäàðòíóþ òî÷íîñòü
     GyroAccel.setFullScaleAccelRange(MPU6050_ACCEL_FS_2);
     GyroAccel.setFullScaleGyroRange(MPU6050_GYRO_FS_250);
-    // îáíóëÿåì îôôñåòû
     GyroAccel.setXAccelOffset(0);
     GyroAccel.setYAccelOffset(0);
     GyroAccel.setZAccelOffset(0);
@@ -161,24 +160,24 @@ void calibration() {
     GyroAccel.setZGyroOffset(0);
     delay(10);
     Serial.println("Calibration start. It will take about 5 seconds");
-    for (byte n = 0; n < 10; n++) {     // 10 èòåðàöèé êàëèáðîâêè
-        for (byte j = 0; j < 6; j++) {    // îáíóëÿåì êàëèáðîâî÷íûé ìàññèâ
+    for (byte n = 0; n < 10; n++) { 
+        for (byte j = 0; j < 6; j++) { 
             offsets[j] = 0;
         }
-        for (byte i = 0; i < 100 + BUFFER_SIZE_CALIBRATION; i++) { // äåëàåì BUFFER_SIZE èçìåðåíèé äëÿ óñðåäíåíèÿ
+        for (byte i = 0; i < 100 + BUFFER_SIZE_CALIBRATION; i++) { 
             GyroAccel.getMotion6(&mpuGet[0], &mpuGet[1], &mpuGet[2], &mpuGet[3], &mpuGet[4], &mpuGet[5]);
-            if (i >= 99) {                         // ïðîïóñêàåì ïåðâûå 99 èçìåðåíèé
+            if (i >= 99) {                         
                 for (byte j = 0; j < 6; j++) {
-                    offsets[j] += (long)mpuGet[j];   // çàïèñûâàåì â êàëèáðîâî÷íûé ìàññèâ
+                    offsets[j] += (long)mpuGet[j];  
                 }
             }
         }
         for (byte i = 0; i < 6; i++) {
-            offsets[i] = offsetsOld[i] - ((long)offsets[i] / BUFFER_SIZE_CALIBRATION); // ó÷èòûâàåì ïðåäûäóùóþ êàëèáðîâêó
-            if (i == 2) offsets[i] += 16384;                               // åñëè îñü Z, êàëèáðóåì â 16384
+            offsets[i] = offsetsOld[i] - ((long)offsets[i] / BUFFER_SIZE_CALIBRATION); 
+            if (i == 2) offsets[i] += 16384;                               
             offsetsOld[i] = offsets[i];
         }
-        // ñòàâèì íîâûå îôôñåòû
+
         GyroAccel.setXAccelOffset(offsets[0] / 8);
         GyroAccel.setYAccelOffset(offsets[1] / 8);
         GyroAccel.setZAccelOffset(offsets[2] / 8);
